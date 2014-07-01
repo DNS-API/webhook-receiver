@@ -54,9 +54,11 @@ require './queue-abstraction'
 class WebHookReceiver < Sinatra::Base
 
   #
-  #  The default port we listen upon.
+  #  The default host/port we listen upon.
   #
+  set :bind, "127.0.0.1"
   set :port, 9898
+
 
   #
   #  The environment
