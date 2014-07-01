@@ -85,7 +85,7 @@ class WebHookReceiver < Sinatra::Base
     user=params[:name]
 
     if ( user.nil? || user.empty? )
-      return "Missing username to associate this hook with."
+      return 500, "Missing username to associate this hook with."
     end
 
 
@@ -113,7 +113,7 @@ class WebHookReceiver < Sinatra::Base
     #  If the body-size is "too big" then this is an error
     #
     if ( body.size >= 1024 * 256 )
-       return "Body is excessively large - rejecting as possibly malicious"
+       return 500, "Body is excessively large - rejecting as possibly malicious"
     end
 
 
@@ -243,7 +243,7 @@ class WebHookReceiver < Sinatra::Base
     #  * GitHub will make this available on the hooks page,
     #  * BitBucket seems to silently ignore it.
     #
-    obj[:uuid]
+    return( obj[:uuid] )
 
   end
 
