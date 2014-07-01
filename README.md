@@ -41,3 +41,22 @@ The flow of execution goes something like this:
 
 
 
+Installation
+-------------
+
+On a Debian GNU/Linux system:
+
+    # apt-get install ruby rubygems
+    # gem install redis
+
+Once installed launch via:
+
+    ./webhook-receiver.rb --debug
+
+>*NOTE*: Don't run this as root, you don't need to and it is a bad idea.
+
+Testing can be achieved by firing off pre-cooked queries ("`./test-driver`"), or via the bundled test-cases ( "`make test`").
+
+
+Steve
+--- 
