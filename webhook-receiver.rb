@@ -112,7 +112,7 @@ class WebHookReceiver < Sinatra::Base
     #
     #  If the body-size is "too big" then this is an error
     #
-    if ( body.size >= 1024 * 1024  )
+    if ( body.size >= 1024 * 256 )
        return "Body is excessively large - rejecting as possibly malicious"
     end
 
