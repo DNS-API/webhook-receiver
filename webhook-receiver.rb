@@ -165,7 +165,7 @@ class WebHookReceiver < Sinatra::Base
         puts "JSON decoded to an empty object.  Weirdness."
       end
 
-      return "The body was not parsed as JSON"
+      return 500, "The body was not parsed as JSON"
     end
 
 
