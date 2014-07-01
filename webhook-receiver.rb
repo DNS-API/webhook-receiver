@@ -42,9 +42,10 @@
 require 'getoptlong'
 require 'json'
 require 'pp'
-require 'redis'
 require 'sinatra/base'
 require 'time'
+
+require './queue-abstraction'
 
 
 #
@@ -62,13 +63,20 @@ class WebHookReceiver < Sinatra::Base
   #
   set :environment, "production"
 
+  #
+  #  The back-end queue we use.
+  #
+  attr_reader :queue
+
+
 
   #
   #  Constructor - Just remember our debug-setting.
   #
-  def initialize
+  def initialize()
     super
     @debug = ( ! ENV['DEBUG'].nil? ) ? true : false
+    @queue = Queue.create( ENV["QUEUE"] || "redis" )
   end
 
 
@@ -233,9 +241,7 @@ class WebHookReceiver < Sinatra::Base
     #
     #  Enqueue it.
     #
-    #  TODO: Support multiple queues.
-    #
-    Redis.new().rpush( "HOOK:JOBS", res )
+    @queue.add( res )
 
     #
     #  Return value - just a string.
@@ -274,6 +280,7 @@ if __FILE__ == $0
   opts = GetoptLong.new(
                         [ '--debug',   '-d', GetoptLong::NO_ARGUMENT ],
                         [ '--port',    '-p', GetoptLong::REQUIRED_ARGUMENT ],
+                        [ '--queue',   '-q', GetoptLong::REQUIRED_ARGUMENT ],
                         [ '--verbose', '-v', GetoptLong::NO_ARGUMENT ]
                         )
 
@@ -281,7 +288,7 @@ if __FILE__ == $0
     opts.each do |opt,arg|
       case opt
       when '--debug'
-        ENV["DEBUG"]= "1"
+        ENV["DEBUG"] = "1"
       when '--port'
         if ( arg =~ /^([0-9]+)$/ )
             WebHookReceiver.port = arg
@@ -289,8 +296,10 @@ if __FILE__ == $0
             puts "Port must be numeric"
             exit(1)
         end
+      when '--queue'
+        ENV["QUEUE"] = arg
       when '--verbose'
-        ENV["DEBUG"]= "1"
+        ENV["DEBUG"] = "1"
       end
     end
   rescue
