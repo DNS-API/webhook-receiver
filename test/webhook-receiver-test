@@ -1,0 +1,46 @@
+#!/usr/bin/ruby1.9.1
+#
+#  Trivial test script
+#
+
+
+require './webhook-receiver'
+require 'test/unit'
+require 'rack/test'
+
+class MyAppTest < Test::Unit::TestCase
+  include Rack::Test::Methods
+
+  def app
+    WebHookReceiver
+  end
+
+  #
+  # Test that a GET-request results in a redirection.
+  #
+  def test_get
+    get '/'
+    assert_equal( last_response.status, 302 )
+    assert( last_response.header[ "Location" ] == "https://dns-api.com/" )
+  end
+
+  #
+  # Test that a HEAD-request results in a redirection.
+  #
+  def test_head
+    head '/'
+    assert_equal( last_response.status, 302 )
+    assert( last_response.header[ "Location" ] == "https://dns-api.com/" )
+  end
+
+  #
+  # Test that bogus submission(s) result in an error
+  #
+  def test_post_empty
+    data = '{}'
+    post '/root', JSON.parse(data)
+    assert_equal( 500, last_response.status )
+    assert( last_response.body =~ /Malformed JSON/i)
+  end
+
+end
