@@ -13,6 +13,7 @@
 %w( beanstalk-client redis ).each do |library|
   begin
     require library
+    puts "Loaded: #{library}"
   rescue LoadError
     puts "Failed to load the library: #{library}"
   end
