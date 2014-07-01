@@ -170,6 +170,18 @@ class WebHookReceiver < Sinatra::Base
 
 
     #
+    #  Ensure the parsing gave us something sensible
+    #
+    if ( ! obj.kind_of? Hash )
+      if ( @debug )
+        puts "The decoded object was not a hash - was #{obj.kind_of?}"
+      end
+
+      return 500, "The body was not a Hash, as expected"
+    end
+
+
+    #
     #  We don't know what kind of hook invoked us.
     #
     type = "unknown";

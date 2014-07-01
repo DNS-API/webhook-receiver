@@ -37,10 +37,22 @@ class MyAppTest < Test::Unit::TestCase
   # Test that bogus submission(s) result in an error
   #
   def test_post_empty
-    data = '{}'
-    post '/root', JSON.parse(data)
+    data = '""'
+    post '/root', data
     assert_equal( 500, last_response.status )
     assert( last_response.body =~ /Malformed JSON/i)
+  end
+
+  #
+  # Test that bogus submission(s) result in an error
+  #
+  def test_post_array
+    data = Array.new()
+    data.push( "Foo" )
+    data.push( "Bar" )
+    post '/root', data.to_json
+    assert_equal( 500, last_response.status )
+    assert( last_response.body =~ /not a Hash/i)
   end
 
 end
