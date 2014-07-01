@@ -1,0 +1,53 @@
+#!/usr/bin/ruby
+#
+#  Submit our pre-cooked bodies to the server on the local-host
+#
+
+require "net/http"
+require "uri"
+
+
+#
+#  Get the submission URL - if specified.
+#
+url = ARGV.shift || "http://localhost:9898/root/"
+
+
+#
+#  Where we send things
+#
+Dir.glob('./data/*.txt') do |file|
+
+  uri = URI(url)
+  req = Net::HTTP::Post.new(uri.path)
+
+  #
+  #  Read the file
+  #
+  data = File.read( file )
+
+  #
+  # Set the body
+  #
+  req.body = data
+  puts "Sending: #{req.body}"
+
+  #
+  # Make the request.
+  #
+  res = Net::HTTP.start(uri.host, uri.port) do |http|
+    http.request req
+  end
+
+  #
+  # Show the result
+  #
+  puts "Response code: #{res.code.to_i}"
+  puts "Response-body: #{res.body}"
+
+  puts " "
+  puts " "
+end
+
+
+
