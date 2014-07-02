@@ -46,7 +46,7 @@ The flow of execution goes something like this:
 * The webhook-service must parse the repository URL from the submission.
     * i.e. This code runs and determines the originating repository.
 * Once parsed the details are stored in a queue.
-    * A seperate non-public component then runs.
+    * A separate non-public component then runs.
 
 
 
