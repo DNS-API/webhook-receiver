@@ -56,13 +56,20 @@ Installation
 On a Debian GNU/Linux system:
 
     # apt-get install ruby rubygems
+
+As the code allows two different queue backends you'll need to install
+the appropriate gem for that.  Your choices are:
+
     # gem install redis
+    # gem install beanstalk-client
 
-Once installed launch via:
+Once you've installed one of the gems launch the service via:
 
-    ./webhook-receiver.rb --debug
+    ./webhook-receiver.rb --debug --queue=[redis|beanstalk]
 
->**NOTE**: Don't run this as root, you don't need to and it is a bad idea.
+* **Notes**
+   * You should also ensure you have a `redis`, or `beanstalkd`, server running on the localhost.
+   * You don't need to run the service as root, as it binds to a high-port (`9898`).
 
 
 Testing
