@@ -17,6 +17,15 @@ Currently we support:
 * [Github](http://github.com/)
 * [BitBucket](http://bitbucket.com/)
 
+When hooks are received the ultimate goal is to get the location of
+the source repository, which will be "`https://github.com/user/repo`",
+"`http://bitbucket.org/user/repo.git`", or similar.
+
+In this codebase very little processing happens in the webhook receiver,
+instead the goal is to extract the repository URL and add it to a local
+queue for later processing.  (Because if your webhook takes "too long" to
+run the remote side will decide it has failed, which would be bad.)
+
 
 
 Motivation
@@ -53,10 +62,14 @@ Once installed launch via:
 
     ./webhook-receiver.rb --debug
 
->*NOTE*: Don't run this as root, you don't need to and it is a bad idea.
+>**NOTE**: Don't run this as root, you don't need to and it is a bad idea.
+
+
+Testing
+-------
 
 Testing can be achieved by firing off pre-cooked queries ("`./test-driver`"), or via the bundled test-cases ( "`make test`").
 
 
 Steve
---- 
+---
