@@ -18,8 +18,13 @@ url = ARGV.shift || "http://localhost:9898/root/"
 #
 Dir.glob('./data/*.txt') do |file|
 
-  uri = URI(url)
-  req = Net::HTTP::Post.new(uri.path)
+  begin
+    uri = URI(url)
+    req = Net::HTTP::Post.new(uri.path)
+  rescue Errno::ECONNREFUSED
+    puts "Connection refused - is the hook service running?"
+    next
+  end
 
   #
   #  Read the file
@@ -35,8 +40,13 @@ Dir.glob('./data/*.txt') do |file|
   #
   # Make the request.
   #
-  res = Net::HTTP.start(uri.host, uri.port) do |http|
-    http.request req
+  begin
+    res = Net::HTTP.start(uri.host, uri.port) do |http|
+      http.request req
+    end
+  rescue Errno::ECONNREFUSED
+    puts "* Connection refused - is the hook service running?\n\n"
+    next
   end
 
   #
