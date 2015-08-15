@@ -1,7 +1,7 @@
 
 =head1 NAME
 
-WebHook::Plugin::Bitbucket::Legacy - Detect legacy request from bitbucket.
+WebHook::Plugin::Parsers::Bitbucket::Legacy - Detect legacy request from bitbucket.
 
 =cut
 
@@ -51,7 +51,7 @@ the same terms as Perl itself.
 use strict;
 use warnings;
 
-package WebHook::Plugins::BitBucket::Legacy;
+package WebHook::Plugins::Parsers::BitBucket::Legacy;
 
 
 =head2 new

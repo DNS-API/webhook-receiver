@@ -1,7 +1,7 @@
 
 =head1 NAME
 
-WebHook::Plugin::Bitbucket - Detect webhook request from bitbucket.
+WebHook::Plugin::Parsers::Bitbucket - Detect webhook request from bitbucket.
 
 =cut
 
@@ -51,7 +51,7 @@ the same terms as Perl itself.
 use strict;
 use warnings;
 
-package WebHook::Plugins::BitBucket;
+package WebHook::Plugins::Parsers::BitBucket;
 
 use LWP::UserAgent;
 

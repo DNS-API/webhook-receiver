@@ -1,7 +1,7 @@
 
 =head1 NAME
 
-WebHook::Plugin::Github - Detect webhook request from github.
+WebHook::Plugin::Parsers::Github - Detect webhook request from github.
 
 =cut
 
@@ -50,7 +50,7 @@ the same terms as Perl itself.
 use strict;
 use warnings;
 
-package WebHook::Plugins::GitHub;
+package WebHook::Plugins::Parsers::GitHub;
 
 
 
