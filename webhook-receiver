@@ -1,4 +1,4 @@
-#!/usr/bin/perl -I/srv/current/common -I/srv/current/hook -I.
+#!/usr/bin/perl -I/srv/current/common -I.
 #
 #  This is the webhook receiver code which responds to pushes sent
 # from the various git-hosting sites.
