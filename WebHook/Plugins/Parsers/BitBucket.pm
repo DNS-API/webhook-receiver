@@ -90,6 +90,8 @@ sub identify
     my ( $self, $ref ) = (@_);
 
     my $result = undef;
+    return( $result ) unless ($ref);
+
     my %hash   = %$ref;
 
 
