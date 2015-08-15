@@ -240,6 +240,13 @@ post '/:user' => sub {
 
         # Call the plugin
         $queue{ 'url' } = $plugin->identify( \%hash );
+
+        # Log the success, if we got it
+        if ( $queue{ 'url' } )
+        {
+            warn "Plugin " . $plugin->name() . " handled repo"
+              if ( UNIVERSAL::can( $plugin, 'name' ) );
+        }
     }
 
     #
