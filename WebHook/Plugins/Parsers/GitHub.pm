@@ -87,7 +87,9 @@ sub identify
     my ( $self, $ref ) = (@_);
 
     my $result = undef;
-    my %hash   = %$ref;
+    return $result unless ($ref);
+
+    my %hash = %$ref;
 
 
     if ( $hash{ 'repository' }{ 'url' } )
