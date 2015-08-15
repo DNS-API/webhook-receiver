@@ -105,8 +105,11 @@ post '/:user' => sub {
     foreach my $plugin ( plugins() )
     {
 
+        # Skip non-validating plugins.
+        next unless ( UNIVERSAL::can( $plugin, 'validate' ) );
+
+        # Call the plugin.
         my $bogus = $plugin->validate($user)
-          if ( UNIVERSAL::can( $plugin, 'validate' ) );
 
         if ($bogus)
         {
@@ -233,7 +236,7 @@ post '/:user' => sub {
         next if ( $queue{ 'url' }  );
 
         # Skip plugins that don't implement our method.
-        next unless ( UNIVERSAL::can( $plugin, 'identify' );
+        next unless ( UNIVERSAL::can( $plugin, 'identify' ) );
 
         # Call the plugin
         $queue{ 'url' } = $plugin->identify( \%hash );
@@ -266,7 +269,7 @@ post '/:user' => sub {
             next if ($queued);
 
             # Skip non-queue plugins
-            next unless ( UNIVERSAL::can( $plugin, 'enqueue' );
+            next unless ( UNIVERSAL::can( $plugin, 'enqueue' ) );
 
             # Call the plugin.
             $queued = $plugin->enqueue($res);
