@@ -38,8 +38,6 @@ use warnings;
 
 package WebHook::Plugins::Queue::Redis;
 
-require Redis;
-
 
 
 
@@ -59,7 +57,19 @@ sub new
     my $self = {};
     bless( $self, $class );
 
-    $self->{ 'redis' } = new Redis;
+    #
+    # See if we can load our Redis client-library
+    #
+    my $str = "use Redis;";
+
+    ## no critic (Eval)
+    eval($str);
+    ## use critic
+
+    #
+    # Open a redis-handle, if we could load the library.
+    #
+    $self->{ 'redis' } = new Redis unless ($@);
 
     return $self;
 }
@@ -77,6 +87,11 @@ allow the server to know that the job has been accepted.
 sub enqueue
 {
     my ( $self, $obj ) = (@_);
+
+    #
+    #  If we don't have a Redis-handle abort
+    #
+    return 0 unless ( $self->{ 'redis' } );
 
     #
     #  Store the JSON-object in the queue.
