@@ -1,4 +1,4 @@
-#!/usr/bin/perl -I. -I..
+#!/usr/bin/perl -I.
 
 use strict;
 use warnings;
@@ -9,7 +9,8 @@ use Test::More qw! no_plan !;
 #
 # Load our module.
 #
-BEGIN {use_ok('WebHook::Plugins::Parsers::GitHub;');}
+BEGIN {use_ok('WebHook::Plugins::Parsers::GitHub');}
+BEGIN {require_ok('WebHook::Plugins::Parsers::GitHub');}
 
 
 #
