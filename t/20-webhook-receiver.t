@@ -10,8 +10,6 @@ use Test::More qw! no_plan !;
 use Test::Mojo;
 
 
-use WebHook::Receiver;
-
 
 my $location_is = sub {
     my ( $t, $value, $desc ) = @_;
@@ -19,6 +17,13 @@ my $location_is = sub {
     local $Test::Builder::Level = $Test::Builder::Level + 1;
     return ( is( $t->tx->res->headers->location, $value, $desc ) );
 };
+
+
+#
+# Load our module.
+#
+BEGIN {use_ok('WebHook::Receiver');}
+require_ok('WebHook::Receiver');
 
 #
 # Create our helper.
