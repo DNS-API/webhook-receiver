@@ -111,4 +111,15 @@ sub identify
     return $result;
 }
 
+
+
+=head2 name
+
+Return the (package) name of this plugin.
+
+=cut
+
+sub name {return __PACKAGE__;}
+
+
 1;

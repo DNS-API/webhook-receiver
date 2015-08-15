@@ -105,4 +105,15 @@ sub enqueue
     return 1;
 }
 
+
+
+=head2 name
+
+Return the (package) name of this plugin.
+
+=cut
+
+sub name {return __PACKAGE__;}
+
+
 1;
