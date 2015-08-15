@@ -233,7 +233,7 @@ post '/:user' => sub {
     {
 
         # First plugin wins.
-        next if ( $queue{ 'url' }  );
+        next if ( $queue{ 'url' } );
 
         # Skip plugins that don't implement our method.
         next unless ( UNIVERSAL::can( $plugin, 'identify' ) );
@@ -246,7 +246,7 @@ post '/:user' => sub {
     #  If we didn't identify a repo then we need to alert the caller
     #
     return ( $c->render( text => "Failed to identify source-repository" ) )
-      unless ( $queue{'url'} );
+      unless ( $queue{ 'url' } );
 
 
     #

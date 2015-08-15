@@ -85,7 +85,7 @@ sub validate
     #
     #  If there were no errors validate the user via the helper.
     #
-    if ( ! $@ )
+    if ( !$@ )
     {
         my $helper = DNSAPI::User->new();
 
