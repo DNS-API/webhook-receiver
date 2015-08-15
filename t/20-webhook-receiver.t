@@ -36,9 +36,14 @@ $t->get_ok("/missing/path/goes/here")->status_is(302)
   ->$location_is('https://dns-api.com/');
 
 #
-#  Posting to the root will also result in a redirection
+#  Posting to the root, or subdirectories, will also result in a redirection
 #
-$t->post_ok( '/' => form => { q => 'Perl' } )->status_is(302);
+$t->post_ok( '/' => form => { q => 'Perl' } )->status_is(302)
+  ->$location_is('https://dns-api.com/');
+$t->post_ok( '/boo/bar' => form => { q => 'Perl' } )->status_is(302)
+  ->$location_is('https://dns-api.com/');
+
+
 
 #
 #  Now we're going to post some valid JSON to a legitimate end-point
@@ -71,7 +76,10 @@ $t->post_ok( '/root' => {} => $json )->status_is(500)
 
 
 #
-#  Finally we POST a JSON-hash (i.e. somethign that is good :)
+#  Finally we POST a JSON-hash.
+#
+#  (i.e. something that should be good, but won't be because
+# it is impossible to parse.)
 #
 my $h;
 $h->{ 'steve' } = "kemp";
