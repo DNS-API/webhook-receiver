@@ -1,0 +1,50 @@
+#!/usr/bin/perl -I/srv/current/common -I/srv/current/hook -I.
+#
+#  This is the webhook receiver code which responds to pushes sent
+# from the various git-hosting sites.
+#
+#  It is a rewrite of that which was previously constructed using
+# Ruby & Sinatra, which is still linked to publicly:
+#
+#    https://github.com/skx/webhook-receiver
+#
+#  This rewrite was initiated to avoid having to mix implementation
+# languages - Rather than Ruby+Perl we're 100% Perl.
+#
+#  Launch it like so:
+#
+#      ./webhook-receiver
+#
+# Steve
+# --
+#
+
+
+use strict;
+use warnings;
+
+
+#
+#  Load our server-object.
+#
+use WebHook::Receiver;
+
+#
+#  Ensure we don't get buffered output.
+#
+{
+    my $ofh = select STDOUT;
+    $| = 1;
+    select $ofh;
+}
+
+#
+#  Start the deamon.
+#
+my $daemon = Mojo::Server::Daemon->new( listen => ['http://*:9898'] );
+eval {$daemon->run();};
+if ($@)
+{
+    print "Failed to start deamon: $@\n";
+    exit(1);
+}
