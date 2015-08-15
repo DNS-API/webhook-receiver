@@ -274,6 +274,11 @@ post '/:user' => sub {
             # Call the plugin.
             $queued = $plugin->enqueue($res);
         }
+
+        if ( $queued == 0 )
+        {
+            return ( $c->render( text => "Failed to enqueue job" ) );
+        }
     }
 
 
