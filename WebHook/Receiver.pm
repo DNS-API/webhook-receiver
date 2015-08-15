@@ -109,7 +109,7 @@ post '/:user' => sub {
         next unless ( UNIVERSAL::can( $plugin, 'validate' ) );
 
         # Call the plugin.
-        my $bogus = $plugin->validate($user)
+        my $bogus = $plugin->validate($user);
 
         if ($bogus)
         {
