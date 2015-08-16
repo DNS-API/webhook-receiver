@@ -111,8 +111,10 @@ post '/:user' => sub {
         # Call the plugin.
         my $bogus = $plugin->validate($user);
 
-        if ($bogus)
+        if ( $bogus && ( length($bogus) > 0 ) )
         {
+            warn "User validation failed - $bogus - via " . $plugin->name();
+
             return (
                      $c->render( text   => "User validation failed: $bogus.",
                                  status => 500

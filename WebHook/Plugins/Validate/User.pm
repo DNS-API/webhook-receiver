@@ -73,9 +73,14 @@ sub validate
 {
     my ( $self, $username ) = (@_);
 
-    return "Invalid username" unless ( $username =~ /^([a-z0-9_-]+)$/i );
-
-    return undef;
+    if ( $username =~ /^([a-z0-9_-]+)$/i )
+    {
+        return "";
+    }
+    else
+    {
+        return "Invalid username" unless ( $username =~ /^([a-z0-9_-]+)$/i );
+    }
 }
 
 

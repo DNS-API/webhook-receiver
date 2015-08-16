@@ -96,7 +96,7 @@ sub validate
           unless $helper->exists($username);
     }
 
-    return undef;
+    return "";
 }
 
 
