@@ -39,12 +39,12 @@ use WebHook::Receiver;
 }
 
 #
-#  Start the deamon.
+#  Start the daemon.
 #
 my $daemon = Mojo::Server::Daemon->new( listen => ['http://*:9898'] );
 eval {$daemon->run();};
 if ($@)
 {
-    print "Failed to start deamon: $@\n";
+    print "Failed to start daemon: $@\n";
     exit(1);
 }
