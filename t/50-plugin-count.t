@@ -18,6 +18,7 @@ use Module::Pluggable
 #
 my %hash = ( identify => 3,
              enqueue  => 1,
+             validate  => 2,
              name     => 6,
              new      => 6
            );
