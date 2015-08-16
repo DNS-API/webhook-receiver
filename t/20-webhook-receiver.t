@@ -1,9 +1,10 @@
 #!/usr/bin/perl -I/srv/current/common/ -I/srv/current/hook/
 
-BEGIN {$ENV{ 'TESTING' } = 1;}
 
 use strict;
 use warnings;
+
+BEGIN {$ENV{ 'TESTING' } = 1;}
 
 use JSON;
 use Test::More qw! no_plan !;

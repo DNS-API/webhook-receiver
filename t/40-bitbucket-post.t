@@ -17,7 +17,7 @@ BEGIN {require_ok('WebHook::Plugins::Parsers::BitBucket');}
 #  Load the payload from our body.
 #
 my $txt = "";
-while( my $line = <DATA> )
+while ( my $line = <DATA> )
 {
     $txt .= $line;
 }
@@ -30,14 +30,18 @@ ok( length($txt), "We found a payload to test" );
 #  Now instantiate the helper
 #
 my $o = WebHook::Plugins::Parsers::BitBucket->new();
-ok( $o, "Created object");
-isa_ok( $o, "WebHook::Plugins::Parsers::BitBucket" , "The object has the right name." );
-is( $o->name, "WebHook::Plugins::Parsers::BitBucket", "Created the right object" );
+ok( $o, "Created object" );
+isa_ok( $o,
+        "WebHook::Plugins::Parsers::BitBucket",
+        "The object has the right name." );
+is( $o->name,
+    "WebHook::Plugins::Parsers::BitBucket",
+    "Created the right object" );
 
 #
 #  Parse our JSON
 #
-my $json = from_json( $txt );
+my $json = from_json($txt);
 ok( $json, "We did parse the JSON" );
 is( ref $json, "HASH", "The JSON is a hash" );
 
@@ -45,8 +49,10 @@ is( ref $json, "HASH", "The JSON is a hash" );
 #  Parse an empty string.
 #
 my $meh;
-is( $o->identify( $meh ), undef, "Empty string was empty" );
-is( $o->identify( $json ), 'git@bitbucket.org:/example/dns', "Found the correct repository-source." );
+is( $o->identify($meh), undef, "Empty string was empty" );
+is( $o->identify($json),
+    'git@bitbucket.org:/example/dns',
+    "Found the correct repository-source." );
 
 
 __DATA__
