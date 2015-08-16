@@ -1,53 +1,60 @@
-#!/usr/bin/ruby
+#!/usr/bin/perl -w
 #
 #  Submit our pre-cooked bodies to the server on the local-host
 #
 
-require "net/http"
-require "uri"
+use strict;
+use warnings;
 
+
+use LWP::UserAgent;
+
+
+
+#
+#  Send the given file
+#
+sub send_file_via_post
+{
+    my ( $file, $url ) = (@_);
+
+
+    my $ua = LWP::UserAgent->new;
+    my $req = HTTP::Request->new( POST => $url );
+
+    # Read the file
+    my $text = "";
+    open( my $handle, "<", $file ) or die "Faild to read $file - $!";
+    while ( my $line = <$handle> )
+    {
+        $text .= $line;
+    }
+    close($handle);
+
+    $req->content($text);
+
+    my $resp = $ua->request($req);
+    if ( $resp->is_success )
+    {
+        my $message = $resp->decoded_content;
+        print "Received reply: $message\n";
+    }
+    else
+    {
+        print "HTTP POST error code: ",    $resp->code,    "\n";
+        print "HTTP POST error message: ", $resp->message, "\n";
+    }
+}
 
 #
 #  Get the submission URL - if specified.
 #
-url = ARGV.shift || "http://localhost:9898/root/"
+my $url = shift || "http://localhost:9898/root/";
 
-
-#
-#  Where we send things
-#
-Dir.glob('./data/*.txt') do |file|
-
-  uri = URI(url)
-  req = Net::HTTP::Post.new(uri.path)
-
-  #
-  #  Read the file
-  #
-  data = File.read( file )
-
-  #
-  # Set the body
-  #
-  req.body = data
-  puts "Sending data"
-
-  #
-  # Make the request.
-  #
-  res = Net::HTTP.start(uri.host, uri.port) do |http|
-    http.request req
-  end
-
-  #
-  # Show the result
-  #
-  puts "Response code: #{res.code.to_i}"
-  puts "Response-body: #{res.body}"
-
-  puts " "
-  puts " "
-end
+foreach my $file ( sort( glob("data/*.txt") ) )
+{
+    send_file_via_post( $file, $url );
+}
 
 
 
