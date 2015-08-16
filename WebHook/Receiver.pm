@@ -151,7 +151,7 @@ post '/:user' => sub {
 
 
     #
-    #  If we're recieving something that has a payload key then
+    #  If we're receiving something that has a payload key then
     # we replace the body with that.
     #
     #  NOTE:  This is used by the bitbucket "service" POSTs, not by
@@ -262,7 +262,7 @@ post '/:user' => sub {
     my $res = to_json( \%queue );
 
     #
-    #  Call each enqueuing plugin - the first one that reports that it
+    #  Call each en-queuing plugin - the first one that reports that it
     # has added it to the queue will win, and do it.
     #
     if ( !$ENV{ 'TESTING' } )
@@ -272,7 +272,7 @@ post '/:user' => sub {
         foreach my $plugin ( plugins() )
         {
 
-            # We only enqueue once.
+            # We only en-queue once.
             next if ($queued);
 
             # Skip non-queue plugins

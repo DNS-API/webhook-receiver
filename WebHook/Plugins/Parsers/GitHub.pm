@@ -21,7 +21,7 @@ Our flow goes something like this:
 
 =item Receive a webhook request.
 
-=item Parse the request to discover teh repository to which it is associated.
+=item Parse the request to discover the repository to which it is associated.
 
 =item Checkout the appropriate repository.
 
@@ -75,7 +75,7 @@ sub new
 =head2 identify
 
 Parse the specified JSON-reference, and see if it relates to a Github
-repostory.  If it does return the URL which can be cloned.
+repository.  If it does return the URL which can be cloned.
 
 If not we return undef/empty so that a later plugin can have a stab
 at the decoding process.
