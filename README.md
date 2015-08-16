@@ -1,24 +1,21 @@
-
 WebHook Receiver
 ================
 
-This repository contains an application for receiving WebHook events from various services (currently github & bitbucket),
-which is written in perl and uses [Mojolicious::Lite](http://mojolicio.us/perldoc/Mojolicious/Lite).
+The code in this repository is designed to listen and respond to webhook-events posted by various git-hosting services, and it is written using the [Mojolicious::Lite](http://mojolicio.us/perldoc/Mojolicious/Lite) framework.
 
-Overview
---------
-
-The code in this repository is designed to listen and respond to "webhooks" posted by various git-hosting services.
-
-Currently we support:
+Currently we support receiving webhooks from the following sites:
 
 * [Github](http://github.com/)
 * [BitBucket](http://bitbucket.com/)
 
-When hooks are received the ultimate goal is to get the location of the source repository, which will be "`https://github.com/user/repo`", "`http://bitbucket.org/user/repo.git`", or similar.
+When an incoming webhook-event is received the ultimate goal is to parse it, identify it, and extract the URL of the git repository from which it was sent.  For example the repository might be:
 
-In this codebase very little processing happens in the webhook receiver, instead the goal is to extract the repository URL and add it to a local queue for later processing.  (Because if your webhook takes "too long" to run the remote side will decide it has failed, which would be bad.)
+* `https://bitbucket.org/skx/dns`.
+* `git@github.com:skx/private-dns.git`.
+* `git@bitbucket.org:/skx/some-local-dns/`.
+* ...
 
+In this codebase very little processing happens in the webhook receiver, once the repository URL is identified it is merely added to a queue, where it can be processed by something else.  This pattern is useful because if a webhook-request takes too long to complete the sender might decide we've failed and retry it.
 
 
 Motivation
@@ -39,6 +36,25 @@ The flow of execution goes something like this:
 * Once parsed the details are stored in a queue.
     * A separate non-public component then runs.
 
+
+Plugins
+-------
+
+In the past this repository contained a monolithic service, written in Ruby, which handled all the actions.  This was hard to test, and harder still to update for new services.  With that in mind it was reworked, from-scratch, to have a Plugin-based architecture.
+
+Each of the plugins beneath the `WebHook::Plugin::` namespace are loaded when the server starts, and three distinct plugin-types are recognized:
+
+* Those that implement `identify`.
+   * These are shown the webhook body, and allowed the opportunity to parse and recognize it.
+   * e.g. `WebHook::Plugin::Parser::GitHub`.
+* Those that implement `validate`.
+   * These exist just to determine whether the webhook reached us via a valid end-point.
+   * e.g .`WebHook::Plugin::Validate::User`.
+* Those that implement `enqueue`.
+   * Once a successful identification has occurred the enqueue plugins will save the result away.
+   * e.g. `WebHook::Plugin::Queue::Redis`.
+
+To add support for a new hosting service it should be sufficient to create a new plugin, implement the `identify` method to return the URL of the repository, and restart-the service.
 
 
 Installation
