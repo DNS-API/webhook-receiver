@@ -1,7 +1,10 @@
 
 
 tidy:
-	perltidy $$(find . -name '*.pm' -o -name '*.t' -print)
+	perltidy $$(find . -name '*.pm') $$(find . -name '*.t') test-driver webhook-receiver
+
+critic:
+	perlcritic $$(find . -name '*.pm') $$(find . -name '*.t') test-driver webhook-receiver
 
 clean:
 	find . -name '*.bak' -delete
