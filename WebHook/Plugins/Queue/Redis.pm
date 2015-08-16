@@ -13,10 +13,11 @@ from various code-hosting services.   Assuming each incoming request can
 be successfully parsed and decoded then the net result will be a job.
 
 The job will then be stored in a queue for later-processing, and this
-enqueue is decoupled from the main core, by being implemented in a
+enqueuing is decoupled from the main core, by being implemented in a
 queue-plugin.
 
-This class implements an interface to the L<Redis> queue.
+This class implements an interface to the L<Redis> queue, allowing the
+parsed job to be saved for later-processing.
 
 =cut
 
@@ -79,8 +80,10 @@ sub new
 =head2 enqueue
 
 This method is called by the server-core to queue the JSON-object to
-a queue.  Here we append it to the Redis store, and return "1" to
-allow the server to know that the job has been accepted.
+a queue.
+
+Here we append it to the Redis store, and return "1" to allow the server
+to know that the job has been accepted.
 
 =cut
 
