@@ -6,7 +6,6 @@
 use strict;
 use warnings;
 
-
 use LWP::UserAgent;
 
 
@@ -17,7 +16,6 @@ use LWP::UserAgent;
 sub send_file_via_post
 {
     my ( $file, $url ) = (@_);
-
 
     my $ua = LWP::UserAgent->new;
     my $req = HTTP::Request->new( POST => $url );
@@ -31,30 +29,42 @@ sub send_file_via_post
     }
     close($handle);
 
+    # Set the body-content
     $req->content($text);
 
+    # Make the submission.
     my $resp = $ua->request($req);
     if ( $resp->is_success )
     {
         my $message = $resp->decoded_content;
-        print "Received reply: $message\n";
+        print "Response: $message\n";
     }
     else
     {
         print "HTTP POST error code: ",    $resp->code,    "\n";
         print "HTTP POST error message: ", $resp->message, "\n";
+        print "Response: " . $resp->decoded_content() . "\n";
     }
 }
+
 
 #
 #  Get the submission URL - if specified.
 #
 my $url = shift || "http://localhost:9898/root/";
 
+#
+#  Send all the queries, one by one.
+#
 foreach my $file ( sort( glob("data/*.txt") ) )
 {
     send_file_via_post( $file, $url );
 }
+
+#
+#  All done
+#
+exit(0);
 
 
 
