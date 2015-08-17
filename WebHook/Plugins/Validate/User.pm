@@ -73,14 +73,25 @@ sub validate
 {
     my ( $self, $username ) = (@_);
 
-    if ( $username =~ /^([a-z0-9_-]+)$/i )
+    # No username?  That's bogus
+    return "Missing username" unless( $username );
+
+    # Ensure the username isn't too long.
+    if ( length($username) > 12 )
     {
-        return "";
+        return "The username is too long.";
     }
-    else
+
+    # Ensure the username is well-formed
+    if ( $username !~ /^([a-z0-9_-]+)$/i )
     {
-        return "Invalid username" unless ( $username =~ /^([a-z0-9_-]+)$/i );
+        return "Invalid username";
     }
+
+    #
+    #  All is OK
+    #
+    return "";
 }
 
 
