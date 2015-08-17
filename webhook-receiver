@@ -39,9 +39,28 @@ use WebHook::Receiver;
 }
 
 #
-#  Start the daemon.
+#  Load the application
 #
-my $daemon = Mojo::Server::Daemon->new( listen => ['http://*:9898'] );
+my $app = WebHook::Receiver->new();
+
+#
+#  Set the production/development-mode, and load a secret.
+#
+$app->mode('production');
+
+#
+# A very weak secret.
+#
+my @chars = ( "A" .. "Z", "a" .. "z", "0" .. "9" );
+my $rand;
+$rand .= $chars[rand @chars] for 1 .. 16;
+$app->secret($rand);
+
+#
+#  Start the daemon
+#
+my $daemon =
+  Mojo::Server::Daemon->new( app => $app, listen => ['http://*:9898'] );
 eval {$daemon->run();};
 if ($@)
 {
