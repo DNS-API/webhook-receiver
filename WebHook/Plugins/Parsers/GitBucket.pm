@@ -104,14 +104,6 @@ sub identify
         # Avoid false-flags
         return "" if ( $result =~ /github\.com/ );
 
-        #
-        #  Handle private repositories.
-        #
-        if ( $hash{ 'repository' }{ 'private' } &&
-             ( $hash{ 'repository' }{ 'private' } ) )
-        {
-            warn "The repository is private\n";
-        }
     }
 
     return $result;
