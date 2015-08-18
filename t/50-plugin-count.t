@@ -1,4 +1,4 @@
-#!/usr/bin/perl -I/srv/current/hook/
+#!/usr/bin/perl -I.
 
 use strict;
 use warnings;

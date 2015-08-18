@@ -1,4 +1,4 @@
-#!/usr/bin/perl -I/srv/current/common/ -I/srv/current/site/lib -I/srv/current/hook
+#!/usr/bin/perl -I/srv/current/common/ -I.
 #
 #  Test that all the Perl modules we require are available.
 #
