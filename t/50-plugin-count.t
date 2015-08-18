@@ -16,11 +16,11 @@ use Module::Pluggable
 #
 #  The kinds of plugins we expect
 #
-my %hash = ( identify => 3,
+my %hash = ( identify => 4,
              enqueue  => 1,
              validate => 2,
-             name     => 6,
-             new      => 6
+             name     => 7,
+             new      => 7
            );
 
 
