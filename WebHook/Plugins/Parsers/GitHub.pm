@@ -93,12 +93,6 @@ sub identify
 
 
     #
-    #  GitHub sends us the sender.
-    #
-    return unless ( $hash{ 'sender' }{ 'url' } );
-    return unless ( $hash{ 'sender' }{ 'url' } =~ /github/i );
-
-    #
     #  Now look for the clone-URL.
     #
     if ( $hash{ 'repository' }{ 'url' } )
@@ -106,6 +100,9 @@ sub identify
         $result = $hash{ 'repository' }{ 'url' };
 
         warn "Repository is from github: $result\n";
+
+        # Avoid false-flags
+        return "" unless ( $result =~ /github/ );
 
         #
         #  Handle private repositories.

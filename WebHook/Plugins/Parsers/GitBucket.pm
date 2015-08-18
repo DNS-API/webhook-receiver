@@ -94,10 +94,15 @@ sub identify
 
     my %hash = %$ref;
 
-
+    #
+    #  Now access the repository.
+    #
     if ( $hash{ 'repository' }{ 'clone_url' } )
     {
         $result = $hash{ 'repository' }{ 'clone_url' };
+
+        # Avoid false-flags
+        return "" if ( $result =~ /github\.com/ );
 
         warn "Repository is from gitbucket: $result\n";
 
