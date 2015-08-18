@@ -24,6 +24,8 @@ BEGIN {use_ok('Test::More');}
 require_ok('Test::More');
 BEGIN {use_ok('URI');}
 require_ok('URI');
+BEGIN {use_ok('URI::Encode');}
+require_ok('URI::Encode');
 BEGIN {use_ok('UUID::Tiny');}
 require_ok('UUID::Tiny');
 BEGIN {use_ok('warnings');}
