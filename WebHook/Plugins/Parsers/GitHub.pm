@@ -92,6 +92,15 @@ sub identify
     my %hash = %$ref;
 
 
+    #
+    #  GitHub sends us the sender.
+    #
+    return unless ( $hash{ 'sender' }{ 'url' } );
+    return unless ( $hash{ 'sender' }{ 'url' } =~ /github/i );
+
+    #
+    #  Now look for the clone-URL.
+    #
     if ( $hash{ 'repository' }{ 'url' } )
     {
         $result = $hash{ 'repository' }{ 'url' };
