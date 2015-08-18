@@ -11,6 +11,8 @@ use Test::More qw! no_plan !;
 #
 BEGIN {use_ok('WebHook::Plugins::Parsers::GitHub');}
 BEGIN {require_ok('WebHook::Plugins::Parsers::GitHub');}
+BEGIN {use_ok('WebHook::Plugins::Parsers::GitBucket');}
+BEGIN {require_ok('WebHook::Plugins::Parsers::GitBucket');}
 
 
 #
@@ -29,12 +31,26 @@ ok( length($txt), "We found a payload to test" );
 #
 #  Now instantiate the helper
 #
-my $o = WebHook::Plugins::Parsers::GitHub->new();
-ok( $o, "Created object" );
-isa_ok( $o,
+my $ok = WebHook::Plugins::Parsers::GitHub->new();
+ok( $ok, "Created object" );
+isa_ok( $ok,
         "WebHook::Plugins::Parsers::GitHub",
         "The object has the right name." );
-is( $o->name, "WebHook::Plugins::Parsers::GitHub", "Created the right object" );
+is( $ok->name, "WebHook::Plugins::Parsers::GitHub",
+    "Created the right object" );
+
+
+#
+#  We don't expect this plugin to match
+#
+my $fail = WebHook::Plugins::Parsers::GitBucket->new();
+ok( $fail, "Created object" );
+isa_ok( $fail,
+        "WebHook::Plugins::Parsers::GitBucket",
+        "The object has the right name." );
+is( $fail->name,
+    "WebHook::Plugins::Parsers::GitBucket",
+    "Created the right object" );
 
 #
 #  Parse our JSON
@@ -44,13 +60,21 @@ ok( $json, "We did parse the JSON" );
 is( ref $json, "HASH", "The JSON is a hash" );
 
 #
-#  Parse an empty string.
+#  Parse an empty string, then the real thing.
 #
 my $meh;
-is( $o->identify($meh), undef, "Empty string was empty" );
-is( $o->identify($json),
+is( $ok->identify($meh), undef, "Empty string was empty" );
+is( $ok->identify($json),
     'git@github.com:skx/private-dns.git',
     "Got the correct repository-source" );
+
+
+#
+# Parse an empty string, then the real thing with the wrong-plugin
+# which we expect to fail.
+#
+is( $fail->identify($meh),  undef, "Empty string was empty" );
+is( $fail->identify($json), "",    "Failed to parse with the wrong plugin" );
 
 
 __DATA__
