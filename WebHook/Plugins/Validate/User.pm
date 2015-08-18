@@ -74,7 +74,7 @@ sub validate
     my ( $self, $username ) = (@_);
 
     # No username?  That's bogus
-    return "Missing username" unless( $username );
+    return "Missing username" unless ($username);
 
     # Ensure the username isn't too long.
     if ( length($username) > 12 )
