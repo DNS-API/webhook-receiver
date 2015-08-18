@@ -95,24 +95,20 @@ sub identify
     my %hash = %$ref;
 
 
-    if ( $hash{ 'repository' }{ 'url' } )
+    if ( $hash{ 'repository' }{ 'clone_url' } )
     {
         $result = $hash{ 'repository' }{ 'clone_url' };
 
-        if ($result)
+        warn "Repository is from gitbucket: $result\n";
+
+        #
+        #  Handle private repositories.
+        #
+        if ( $hash{ 'repository' }{ 'private' } &&
+             ( $hash{ 'repository' }{ 'private' } ) )
         {
-            warn "Repository is from gitbucket: $result\n";
-
-            #
-            #  Handle private repositories.
-            #
-            if ( $hash{ 'repository' }{ 'private' } &&
-                 ( $hash{ 'repository' }{ 'private' } ) )
-            {
-                warn "The repository is private\n";
-            }
+            warn "The repository is private\n";
         }
-
     }
 
     return $result;
