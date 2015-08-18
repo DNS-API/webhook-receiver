@@ -68,6 +68,7 @@ use HTML::Entities;
 use JSON;
 use Mojolicious::Lite;
 use URI;
+use URI::Encode qw(uri_decode);
 use UUID::Tiny;
 
 
@@ -174,6 +175,16 @@ post '/:user' => sub {
         $body = $1;
         $body = decode_entities($body);
         $body =~ s/\+//g;
+
+    }
+
+    #
+    #  Finally if the body starts with a '%...' then we know
+    # it is double-encoded
+    #
+    if ( $body =~ /^\%/ )
+    {
+        $body = uri_decode($body);
     }
 
 
@@ -205,7 +216,6 @@ post '/:user' => sub {
              $c->render( text => "JSON didn't decode to a hash", status => 500 )
         );
     }
-
 
     #
     #  Hashify the object.
