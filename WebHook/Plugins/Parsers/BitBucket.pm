@@ -54,6 +54,7 @@ use warnings;
 package WebHook::Plugins::Parsers::BitBucket;
 
 use LWP::UserAgent;
+use URI;
 
 
 
