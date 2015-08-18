@@ -104,8 +104,6 @@ sub identify
         # Avoid false-flags
         return "" if ( $result =~ /github\.com/ );
 
-        warn "Repository is from gitbucket: $result\n";
-
         #
         #  Handle private repositories.
         #

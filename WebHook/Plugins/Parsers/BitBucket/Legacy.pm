@@ -98,8 +98,6 @@ sub identify
           "https://bitbucket.org" . $hash{ 'repository' }{ 'absolute_url' };
 
 
-        warn "Repository is from bitbucket: $result\n";
-
         #
         #  Is this private?
         #
@@ -109,7 +107,6 @@ sub identify
             $result =
               'git@bitbucket.org:' . $hash{ 'repository' }{ 'absolute_url' };
 
-            warn "The repository is private\n";
         }
 
     }

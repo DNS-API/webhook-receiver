@@ -103,8 +103,6 @@ sub identify
     {
         $result = $hash{ 'repository' }{ 'links' }{ 'html' }{ 'href' };
 
-        warn "REPO is bitbucket via new-style webhook: $result\n";
-
         #
         # We assume the repository is public by default.
         #
@@ -135,7 +133,6 @@ sub identify
         }
         else
         {
-            warn "The repository is private.";
             $private = 1;
         }
 

@@ -99,8 +99,6 @@ sub identify
     {
         $result = $hash{ 'repository' }{ 'url' };
 
-        warn "Repository is from github: $result\n";
-
         # Avoid false-flags
         return "" unless ( $result =~ /github/ );
 
@@ -111,7 +109,6 @@ sub identify
              ( $hash{ 'repository' }{ 'private' } eq "true" ) )
         {
             $result = $hash{ 'repository' }{ 'ssh_url' };
-            warn "The repository is private\n";
         }
 
     }
