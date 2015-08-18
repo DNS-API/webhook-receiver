@@ -67,7 +67,6 @@ package WebHook::Receiver;
 use HTML::Entities;
 use JSON;
 use Mojolicious::Lite;
-use URI;
 use URI::Encode qw(uri_decode);
 use UUID::Tiny;
 
